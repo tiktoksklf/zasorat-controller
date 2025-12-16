@@ -1,0 +1,213 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+
+  <!-- iOS viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>ZASO DEV</title>
+
+  <!-- iOS Home Screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ZASO DEV">
+  <link rel="apple-touch-icon" href="image.png">
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, Inter, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: #111;
+    }
+    header {
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+    .node {
+      background: #f7f7f7;
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2ecc71;
+    }
+    .dot.off {
+      background: #e74c3c;
+    }
+    .panel {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+    }
+    .panel header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .screen {
+      margin: 16px;
+      height: 180px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #eaeaea, #dcdcdc);
+    }
+    .actions {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    button {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-weight: 500;
+    }
+    .logs {
+      flex: 1;
+      border-top: 1px solid #eee;
+      padding: 16px;
+      font-size: 12px;
+      color: #555;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>ZASO DEV — RAT CONSOLE</header>
+
+<div class="grid" id="grid"><div class="node">
+      <strong>34.124.34.234</strong><br>
+      Windows 10
+      <div class="status">
+        <div class="dot "></div>
+        ACTIVE
+      </div>
+    </div><div class="node">
+      <strong>232.23.153.23</strong><br>
+      Windows 11
+      <div class="status">
+        <div class="dot off"></div>
+        OFFLINE
+      </div>
+    </div><div class="node">
+      <strong>243.94.63.32</strong><br>
+      Windows 11
+      <div class="status">
+        <div class="dot "></div>
+        ACTIVE
+      </div>
+    </div></div>
+
+<div class="panel" id="panel" style="display: none;">
+  <header>
+    <span id="nodeTitle">243.94.63.32 — Windows 10</span>
+    <button onclick="closePanel()">Close</button>
+  </header>
+
+  <div style="
+  margin:12px;
+  width:100%;
+  max-width:500px;
+  aspect-ratio:16/9;
+  border-radius:20px;
+  overflow:hidden;
+  background:#eaeaea;
+">
+  <img src="https://th.bing.com/th/id/R.4930c6ae1db1809990e48b531f8c1284?rik=777Gep2DRcthmw&amp;riu=http%3a%2f%2fcdn.geekwire.com%2fwp-content%2fuploads%2f2015%2f06%2fW10_Laptop_Start_MiniStart_16x9_en-US_042315.png&amp;ehk=kWltzrSXcnbSOKwGRFVGA4f5d0JZYWRIFMIxhM%2bTAAo%3d&amp;risl=1&amp;pid=ImgRaw&amp;r=0" alt="" style="
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  ">
+</div>
+
+
+  <div class="actions">
+    <button onclick="logAction('3x cookie found : Tiktok.com QWxhZGRpbjpPcGVuU2VzYW1l - Instagram.com DDHDhdFEURHuhuheueur378473duhfu - Discord.com IDSJFJFHDU457848u342987475458yu4r48aAUGHRUgh')">Collect saved cookies</button>
+    <button onclick="logAction('Epicgames.com: kylismine3@gmail.com  Youaremine1$ - mallieallise34@yahoo.com allise234$R% - Gmail.com mallieallise34@yahoo.com allise234$R%')">Retrieve Saved Email and passwords</button>
+    <button onclick="logAction('Shut down...')">ShutDown PC</button>
+    <button onclick="logAction('Trigger System Fault ')">Trigger Blue Screen of death</button>
+    <button onclick="logAction('Terminate Node Session')">Terminate windows Session</button>
+    <button onclick="logAction('Deleted MAJOR System files ')">Delete syetem files without admin needed</button>
+  </div>
+
+  <div class="logs" id="logs"></div>
+</div>
+
+<script>
+  const nodes = [
+    { id: "NODE-A17", env: "DeskCore v10", active: true },
+    { id: "NODE-B04", env: "Aurum OS", active: false },
+    { id: "NODE-C99", env: "Kernel-X", active: true }
+  ];
+
+  const grid = document.getElementById("grid");
+  const panel = document.getElementById("panel");
+  const nodeTitle = document.getElementById("nodeTitle");
+  const logs = document.getElementById("logs");
+
+  nodes.forEach(n => {
+    const div = document.createElement("div");
+    div.className = "node";
+    div.innerHTML = `
+      <strong>${n.id}</strong><br>
+      ${n.env}
+      <div class="status">
+        <div class="dot ${n.active ? "" : "off"}"></div>
+        ${n.active ? "ACTIVE" : "DORMANT"}
+      </div>
+    `;
+    div.onclick = () => openPanel(n);
+    grid.appendChild(div);
+  });
+
+  function openPanel(n) {
+    nodeTitle.textContent = n.id + " — " + n.env;
+    logs.innerHTML = "";
+    panel.style.display = "flex";
+  }
+
+  function closePanel() {
+    panel.style.display = "none";
+  }
+
+  function logAction(action) {
+    logs.innerHTML += `<div>${action} → STATUS: OK</div>`;
+    logs.scrollTop = logs.scrollHeight;
+  }
+</script>
+
+
+
+</body></html>
